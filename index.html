@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BizBuddy AI - Smart insights, friendly guidance</title>
     <style>
+        /* Import Inter font (must be at the top of the CSS) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         :root {
             /* Light mode colors */
             --primary: #2563EB;
@@ -14,7 +17,7 @@
             --surface: #FFFFFF;
             --text-primary: #111827;
             --text-secondary: #6B7280;
-            
+
             /* Additional utility colors */
             --accent-hover: #0F766E;
             --border: #E5E7EB;
@@ -31,7 +34,7 @@
             --surface: #1E293B;
             --text-primary: #F8FAFC;
             --text-secondary: #94A3B8;
-            
+
             /* Adjusted utility colors for dark mode */
             --accent-hover: #0F766E;
             --border: #334155;
@@ -39,11 +42,7 @@
             --secondary-light: rgba(16, 185, 129, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -97,73 +96,36 @@
             position: relative;
             overflow: hidden;
         }
-
         .container::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
         }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes slideUp { from {opacity: 0; transform: translateY(40px);} to {opacity: 1; transform: translateY(0);} }
 
         .logo {
-            width: 90px;
-            height: 90px;
+            width: 90px; height: 90px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 22px;
             margin: 0 auto 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             box-shadow: 0 20px 40px var(--shadow);
             animation: float 3s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .logo::before {
             content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
             transform: rotate(45deg);
             animation: shine 4s infinite;
         }
-
-        .logo::after {
-            content: "🤝";
-            font-size: 42px;
-            z-index: 2;
-            position: relative;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-200%) translateY(-200%) rotate(45deg); }
-            50% { transform: translateX(-200%) translateY(-200%) rotate(45deg); }
-            100% { transform: translateX(200%) translateY(200%) rotate(45deg); }
-        }
+        .logo::after { content: "🤝"; font-size: 42px; z-index: 2; position: relative; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        @keyframes float { 0%,100%{transform: translateY(0) rotate(0);} 50%{transform: translateY(-12px) rotate(1deg);} }
+        @keyframes shine { 0%{transform: translateX(-200%) translateY(-200%) rotate(45deg);} 50%{transform: translateX(-200%) translateY(-200%) rotate(45deg);} 100%{transform: translateX(200%) translateY(200%) rotate(45deg);} }
 
         h1 {
             font-size: 4.5rem;
@@ -174,13 +136,11 @@
             letter-spacing: -0.02em;
             text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
         }
-
         .tagline {
             font-size: 1.5rem;
             color: var(--text-secondary);
             margin-bottom: 50px;
-            font-weight: 400;
-            font-style: italic;
+            font-weight: 400; font-style: italic;
             animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
         }
 
@@ -189,17 +149,12 @@
             color: var(--text-primary);
             margin-bottom: 50px;
             max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: auto; margin-right: auto;
             animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
             line-height: 1.8;
             text-align: left;
         }
-
-        .description strong {
-            color: var(--secondary);
-            font-weight: 600;
-        }
+        .description strong { color: var(--secondary); font-weight: 600; }
 
         .features {
             margin: 60px 0;
@@ -208,62 +163,29 @@
             gap: 30px;
             animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
         }
-
         .feature {
             padding: 30px 25px;
             background: var(--secondary-light);
             border-radius: 20px;
             border: 1px solid var(--border);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .feature::before {
             content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px;
             background: var(--secondary);
             transform: translateX(-100%);
             transition: transform 0.4s ease;
         }
+        .feature:hover::before { transform: translateX(0); }
+        .feature:hover { transform: translateY(-8px); box-shadow: 0 20px 40px var(--shadow); border-color: var(--secondary); }
+        .feature-icon { font-size: 2.8rem; margin-bottom: 15px; display: block; }
+        .feature-title { font-weight: 700; color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
+        .feature-desc { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
 
-        .feature:hover::before {
-            transform: translateX(0);
-        }
-
-        .feature:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px var(--shadow);
-            border-color: var(--secondary);
-        }
-
-        .feature-icon {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .feature-title {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .feature-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .cta-section {
-            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 1s both;
-            margin-top: 60px;
-        }
+        .cta-section { animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 1s both; margin-top: 60px; }
 
         .email-form {
             display: flex;
@@ -271,6 +193,7 @@
             max-width: 500px;
             margin: 0 auto 25px;
             flex-wrap: wrap;
+            justify-content: center; /* centers input + button */
         }
 
         .email-input {
@@ -285,21 +208,17 @@
             color: var(--text-primary);
             font-family: inherit;
         }
-
-        .email-input::placeholder {
-            color: var(--text-secondary);
-        }
-
+        .email-input::placeholder { color: var(--text-secondary); }
         .email-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
             transform: translateY(-2px);
         }
 
         .cta-button {
             background: var(--accent);
-            color: white;
+            color: #fff;
             padding: 20px 40px;
             border: none;
             border-radius: 50px;
@@ -307,140 +226,53 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+            box-shadow: 0 10px 30px rgba(20,184,166,0.3);
             min-width: 180px;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
             font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .cta-button::before {
             content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.6s;
         }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            background: var(--accent-hover);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(20, 184, 166, 0.4);
-        }
-
-        .cta-button:active {
-            transform: translateY(-2px);
-        }
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover { background: var(--accent-hover); transform: translateY(-4px); box-shadow: 0 15px 40px rgba(20,184,166,0.4); }
+        .cta-button:active { transform: translateY(-2px); }
 
         .footer-text {
             font-size: 1rem;
             color: var(--text-secondary);
             margin-top: 30px;
             max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: auto; margin-right: auto;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);} }
 
-        /* Mobile Responsiveness */
+        /* Mobile */
         @media (max-width: 768px) {
-            .theme-toggle {
-                top: 20px;
-                right: 20px;
-                padding: 10px 16px;
-                font-size: 13px;
-            }
-
-            .container {
-                padding: 60px 30px;
-                margin: 10px;
-                border-radius: 20px;
-            }
-
-            h1 {
-                font-size: 3.5rem;
-            }
-
-            .tagline {
-                font-size: 1.3rem;
-            }
-
-            .description {
-                font-size: 1.1rem;
-                text-align: center;
-            }
-
-            .email-form {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .email-input {
-                width: 100%;
-                max-width: none;
-            }
-
-            .cta-button {
-                width: 100%;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                margin: 50px 0;
-            }
+            .theme-toggle { top: 20px; right: 20px; padding: 10px 16px; font-size: 13px; }
+            .container { padding: 60px 30px; margin: 10px; border-radius: 20px; }
+            h1 { font-size: 3.5rem; }
+            .tagline { font-size: 1.3rem; }
+            .description { font-size: 1.1rem; text-align: center; }
+            .email-form { flex-direction: column; align-items: center; gap: 15px; }
+            .email-input { width: 100%; max-width: none; }
+            .cta-button { width: 100%; }
+            .features { grid-template-columns: 1fr; gap: 25px; margin: 50px 0; }
         }
-
         @media (max-width: 480px) {
-            .container {
-                padding: 40px 20px;
-            }
-
-            h1 {
-                font-size: 2.8rem;
-            }
-
-            .tagline {
-                font-size: 1.2rem;
-            }
-
-            .logo {
-                width: 70px;
-                height: 70px;
-            }
-
-            .logo::after {
-                font-size: 35px;
-            }
-
-            .description {
-                font-size: 1rem;
-            }
+            .container { padding: 40px 20px; }
+            h1 { font-size: 2.8rem; }
+            .tagline { font-size: 1.2rem; }
+            .logo { width: 70px; height: 70px; }
+            .logo::after { font-size: 35px; }
+            .description { font-size: 1rem; }
         }
-
-        /* Import Inter font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     </style>
 </head>
 <body>
@@ -451,12 +283,13 @@
 
     <div class="container">
         <div class="logo"></div>
-        
+
         <h1>BizBuddy AI</h1>
         <p class="tagline">Smart insights, friendly guidance</p>
-        
+
         <div class="description">
-            <strong>BizBuddy AI is built to be the approachable AI assistant that small businesses can trust.</strong> We're starting with review insights — turning Google and Yelp feedback into clear actions — but our vision goes further. BizBuddy AI will help streamline operations, highlight growth opportunities, and act as a supportive digital partner that makes advanced technology feel simple and human. We want to empower local businesses with the same intelligence that big companies have, without the complexity or coldness of corporate tools.
+            <strong>BizBuddy AI is built to be the approachable AI assistant that small businesses can trust.</strong>
+            We're starting with review insights — turning Google and Yelp feedback into clear actions — but our vision goes further. BizBuddy AI will help streamline operations, highlight growth opportunities, and act as a supportive digital partner that makes advanced technology feel simple and human. We want to empower local businesses with the same intelligence that big companies have, without the complexity or coldness of corporate tools.
         </div>
 
         <div class="features">
@@ -479,12 +312,12 @@
 
         <div class="cta-section">
             <form class="email-form" onsubmit="handleSubmit(event)">
-                <input 
-                    type="email" 
-                    class="email-input" 
+                <input
+                    type="email"
+                    class="email-input"
                     placeholder="Enter your email for early access"
                     required
-                >
+                />
                 <button type="submit" class="cta-button">
                     <span>Get Early Access</span>
                 </button>
@@ -494,12 +327,11 @@
     </div>
 
     <script>
-        // Theme toggle functionality
         function toggleTheme() {
             const html = document.documentElement;
             const themeIcon = document.getElementById('theme-icon');
             const themeText = document.getElementById('theme-text');
-            
+
             if (html.getAttribute('data-theme') === 'dark') {
                 html.removeAttribute('data-theme');
                 themeIcon.textContent = '🌙';
@@ -513,12 +345,11 @@
             }
         }
 
-        // Set initial theme based on preference or system
         function setInitialTheme() {
             const savedTheme = localStorage.getItem('theme');
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             const theme = savedTheme || systemTheme;
-            
+
             if (theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 document.getElementById('theme-icon').textContent = '☀️';
@@ -526,29 +357,25 @@
             }
         }
 
-        // Form submission handler
         function handleSubmit(event) {
             event.preventDefault();
             const email = event.target.querySelector('.email-input').value;
             const button = event.target.querySelector('.cta-button');
             const span = button.querySelector('span');
-            
-            // Animation feedback
+
             span.textContent = 'Welcome aboard!';
             button.style.background = '#10B981';
-            
+
             setTimeout(() => {
                 span.textContent = 'Get Early Access';
                 button.style.background = '#14B8A6';
             }, 2500);
-            
+
             console.log('Email submitted:', email);
         }
 
-        // Initialize theme on page load
         setInitialTheme();
 
-        // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem('theme')) {
                 if (e.matches) {
