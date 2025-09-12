@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BizBuddy AI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap">
+    <h1>BizBuddy AI</h1>
+    <p class="tag">Smart insights, friendly guidance.</p>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>What we do</h2>
+      <p>We turn your reviews and operations data into clear actions—no jargon, just results.</p>
+    </section>
+
+    <section class="cards">
+      <div class="card">
+        <h3>Review Insights</h3>
+        <p>Pull Google reviews, summarize themes, and prioritize fixes.</p>
+      </div>
+      <div class="card">
+        <h3>Ops Dashboard</h3>
+        <p>Daily metrics with plain-English takeaways for owners.</p>
+      </div>
+      <div class="card">
+        <h3>Playbooks</h3>
+        <p>Simple, step-by-step actions to improve service and speed.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>© <span id="year"></span> BizBuddy AI · <a href="mailto:info@biz-buddy-ai.com">info@biz-buddy-ai.com</a></p>
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
