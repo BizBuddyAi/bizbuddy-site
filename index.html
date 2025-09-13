@@ -1,395 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="faveicon.png">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BizBuddy AI - Smart insights, friendly guidance</title>
-    <style>
-        /* Import Inter font (must be at the top of the CSS) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BizBuddy AI - Smart insights, friendly guidance</title>
 
-        :root {
-            /* Light mode colors */
-            --primary: #2563EB;
-            --secondary: #10B981;
-            --accent: #14B8A6;
-            --background: #F9FAFB;
-            --surface: #FFFFFF;
-            --text-primary: #111827;
-            --text-secondary: #6B7280;
+  <!-- Favicon (drop favicon.png in the repo root) -->
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-            /* Additional utility colors */
-            --accent-hover: #0F766E;
-            --border: #E5E7EB;
-            --shadow: rgba(37, 99, 235, 0.1);
-            --secondary-light: rgba(16, 185, 129, 0.1);
-        }
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-        [data-theme="dark"] {
-            /* Dark mode colors */
-            --primary: #3B82F6;
-            --secondary: #10B981;
-            --accent: #14B8A6;
-            --background: #0F172A;
-            --surface: #1E293B;
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
-
-            /* Adjusted utility colors for dark mode */
-            --accent-hover: #0F766E;
-            --border: #334155;
-            --shadow: rgba(59, 130, 246, 0.2);
-            --secondary-light: rgba(16, 185, 129, 0.2);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--background);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--shadow);
-            border-color: var(--primary);
-        }
-
-        .container {
-            background: var(--surface);
-            border-radius: 24px;
-            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.08);
-            padding: 80px 60px;
-            text-align: center;
-            max-width: 800px;
-            width: 100%;
-            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-        }
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-        }
-        @keyframes slideUp { from {opacity: 0; transform: translateY(40px);} to {opacity: 1; transform: translateY(0);} }
-
-        .logo {
-            width: 90px; height: 90px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 22px;
-            margin: 0 auto 40px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 20px 40px var(--shadow);
-            animation: float 3s ease-in-out infinite;
-            position: relative; overflow: hidden;
-        }
-        .logo::before {
-            content: "";
-            position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: rotate(45deg);
-            animation: shine 4s infinite;
-        }
-        .logo::after { content: "🤝"; font-size: 42px; z-index: 2; position: relative; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-        @keyframes float { 0%,100%{transform: translateY(0) rotate(0);} 50%{transform: translateY(-12px) rotate(1deg);} }
-        @keyframes shine { 0%{transform: translateX(-200%) translateY(-200%) rotate(45deg);} 50%{transform: translateX(-200%) translateY(-200%) rotate(45deg);} 100%{transform: translateX(200%) translateY(200%) rotate(45deg);} }
-
-        h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: var(--primary);
-            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
-        }
-        .tagline {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 50px;
-            font-weight: 400; font-style: italic;
-            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
-        }
-
-        .description {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 50px;
-            max-width: 650px;
-            margin-left: auto; margin-right: auto;
-            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
-            line-height: 1.8;
-            text-align: left;
-        }
-        .description strong { color: var(--secondary); font-weight: 600; }
-
-        .features {
-            margin: 60px 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
-        }
-        .feature {
-            padding: 30px 25px;
-            background: var(--secondary-light);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative; overflow: hidden;
-        }
-        .feature::before {
-            content: "";
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 3px;
-            background: var(--secondary);
-            transform: translateX(-100%);
-            transition: transform 0.4s ease;
-        }
-        .feature:hover::before { transform: translateX(0); }
-        .feature:hover { transform: translateY(-8px); box-shadow: 0 20px 40px var(--shadow); border-color: var(--secondary); }
-        .feature-icon { font-size: 2.8rem; margin-bottom: 15px; display: block; }
-        .feature-title { font-weight: 700; color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
-        .feature-desc { font-size: 1rem; color: var(--text-secondary); line-height: 1.6; }
-
-        .cta-section { animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) 1s both; margin-top: 60px; }
-
-        .email-form {
-            display: flex;
-            gap: 15px;
-            max-width: 500px;
-            margin: 0 auto 25px;
-            flex-wrap: wrap;
-            justify-content: center; /* centers input + button */
-        }
-
-        .email-input {
-            flex: 1;
-            min-width: 300px;
-            padding: 20px 28px;
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--surface);
-            color: var(--text-primary);
-            font-family: inherit;
-        }
-        .email-input::placeholder { color: var(--text-secondary); }
-        .email-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
-            transform: translateY(-2px);
-        }
-
-        .cta-button {
-            background: var(--accent);
-            color: #fff;
-            padding: 20px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 30px rgba(20,184,166,0.3);
-            min-width: 180px;
-            position: relative; overflow: hidden;
-            font-family: inherit;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .cta-button::before {
-            content: "";
-            position: absolute; top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-        .cta-button:hover::before { left: 100%; }
-        .cta-button:hover { background: var(--accent-hover); transform: translateY(-4px); box-shadow: 0 15px 40px rgba(20,184,166,0.4); }
-        .cta-button:active { transform: translateY(-2px); }
-
-        .footer-text {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-top: 30px;
-            max-width: 400px;
-            margin-left: auto; margin-right: auto;
-        }
-
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);} }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .theme-toggle { top: 20px; right: 20px; padding: 10px 16px; font-size: 13px; }
-            .container { padding: 60px 30px; margin: 10px; border-radius: 20px; }
-            h1 { font-size: 3.5rem; }
-            .tagline { font-size: 1.3rem; }
-            .description { font-size: 1.1rem; text-align: center; }
-            .email-form { flex-direction: column; align-items: center; gap: 15px; }
-            .email-input { width: 100%; max-width: none; }
-            .cta-button { width: 100%; }
-            .features { grid-template-columns: 1fr; gap: 25px; margin: 50px 0; }
-        }
-        @media (max-width: 480px) {
-            .container { padding: 40px 20px; }
-            h1 { font-size: 2.8rem; }
-            .tagline { font-size: 1.2rem; }
-            .logo { width: 70px; height: 70px; }
-            .logo::after { font-size: 35px; }
-            .description { font-size: 1rem; }
-        }
-    </style>
+  <style>
+    :root {
+      --primary:#2563EB; --secondary:#10B981; --accent:#14B8A6;
+      --background:#F9FAFB; --surface:#FFFFFF;
+      --text-primary:#111827; --text-secondary:#6B7280;
+      --accent-hover:#0F766E; --border:#E5E7EB; --shadow:rgba(37,99,235,.1);
+      --secondary-light:rgba(16,185,129,.1);
+    }
+    [data-theme="dark"]{
+      --primary:#3B82F6; --secondary:#10B981; --accent:#14B8A6;
+      --background:#0F172A; --surface:#1E293B;
+      --text-primary:#F8FAFC; --text-secondary:#94A3B8;
+      --accent-hover:#0F766E; --border:#334155; --shadow:rgba(59,130,246,.2);
+      --secondary-light:rgba(16,185,129,.2);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text-primary); background:var(--background); line-height:1.6;
+      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+      transition:all .3s ease;
+    }
+    .theme-toggle{
+      position:fixed; top:30px; right:30px; background:var(--surface); border:2px solid var(--border);
+      border-radius:50px; padding:12px 20px; cursor:pointer; z-index:1000; display:flex; gap:8px; align-items:center;
+      color:var(--text-secondary); font-weight:600; box-shadow:0 4px 12px var(--shadow);
+    }
+    .theme-toggle:hover{transform:translateY(-2px)}
+    .container{
+      background:var(--surface); border:1px solid var(--border); border-radius:24px; max-width:800px; width:100%;
+      padding:80px 60px; text-align:center; box-shadow:0 32px 64px rgba(0,0,0,.08); position:relative; overflow:hidden;
+      animation:slideUp .8s cubic-bezier(.4,0,.2,1);
+    }
+    .container::before{
+      content:""; position:absolute; top:0; left:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));
+    }
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    .logo{width:90px;height:90px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:22px;
+      margin:0 auto 40px; display:flex; align-items:center; justify-content:center; box-shadow:0 20px 40px var(--shadow);
+      animation:float 3s ease-in-out infinite; position:relative; overflow:hidden}
+    .logo::before{content:""; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background:linear-gradient(45deg,transparent,rgba(255,255,255,.2),transparent); transform:rotate(45deg);
+      animation:shine 4s infinite}
+    .logo::after{content:"🤝"; font-size:42px; position:relative}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes shine{0%{transform:translate(-200%,-200%) rotate(45deg)}100%{transform:translate(200%,200%) rotate(45deg)}}
+    h1{font-size:4.5rem; font-weight:800; margin-bottom:20px; color:var(--primary); letter-spacing:-.02em}
+    .tagline{font-size:1.5rem; color:var(--text-secondary); margin-bottom:50px; font-style:italic}
+    .description{max-width:650px; margin:0 auto 50px; text-align:left; font-size:1.2rem; line-height:1.8}
+    .description strong{color:var(--secondary)}
+    .features{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:30px; margin:60px 0}
+    .feature{padding:30px 25px; border:1px solid var(--border); border-radius:20px; background:var(--secondary-light)}
+    .feature-title{font-weight:700; color:var(--primary); margin:.5rem 0}
+    .feature-desc{color:var(--text-secondary)}
+    .cta-section{margin-top:60px}
+    .email-form{display:flex; gap:15px; max-width:500px; margin:0 auto 25px; flex-wrap:wrap; justify-content:center}
+    .email-input{flex:1; min-width:300px; padding:20px 28px; border:2px solid var(--border); border-radius:50px; background:var(--surface)}
+    .email-input:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+    .cta-button{
+      background:var(--accent); color:#fff; padding:20px 40px; border:none; border-radius:50px; font-weight:700; cursor:pointer;
+      min-width:180px; display:flex; align-items:center; justify-content:center;
+    }
+    .cta-button:hover{background:var(--accent-hover); transform:translateY(-2px)}
+    .footer-text{color:var(--text-secondary); max-width:420px; margin:0 auto}
+    @media (max-width:768px){ h1{font-size:3.4rem} .description{text-align:center} .cta-button{width:100%} .email-input{width:100%}}
+    /* Chat widget */
+    #bb-chat{position:fixed; bottom:20px; right:20px; width:320px; max-width:90vw; z-index:50; font-family:inherit}
+    #bb-chat .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.08); overflow:hidden}
+    #bb-chat header{padding:12px 14px; font-weight:700; color:var(--primary); border-bottom:1px solid var(--border)}
+    #bb-chat .body{padding:12px; max-height:360px; overflow:auto; font-size:14px}
+    #bb-chat .msg{margin:8px 0}
+    #bb-chat .me{text-align:right}
+    #bb-chat .form{display:flex; gap:8px; padding:12px; border-top:1px solid var(--border)}
+    #bb-chat input{flex:1; padding:10px 12px; border:1px solid var(--border); border-radius:12px}
+    #bb-chat button{padding:10px 14px; border:none; border-radius:12px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer}
+  </style>
 </head>
 <body>
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span>
-        <span id="theme-text">Dark</span>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span><span id="theme-text">Dark</span>
+  </button>
+
+  <main class="container">
+    <div class="logo"></div>
+    <h1>BizBuddy AI</h1>
+    <p class="tagline">Smart insights, friendly guidance</p>
+
+    <div class="description">
+      <strong>BizBuddy AI is the approachable AI assistant small businesses can trust.</strong>
+      We start with review insights—turning Google and Yelp feedback into clear actions—
+      and expand into daily ops, growth playbooks, and plain-English dashboards that owners love.
     </div>
 
-    <div class="container">
-        <div class="logo"></div>
+    <section class="features">
+      <div class="feature">
+        <div class="feature-title">📊 Review Insights</div>
+        <div class="feature-desc">Summarize recurring themes and prioritize fixes customers care about.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">🚀 Growth Opportunities</div>
+        <div class="feature-desc">Spot quick wins and high-impact changes to improve service and speed.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-title">🤖 Friendly AI</div>
+        <div class="feature-desc">Helpful, human-feeling guidance instead of cold corporate software.</div>
+      </div>
+    </section>
 
-        <h1>BizBuddy AI</h1>
-        <p class="tagline">Smart insights, friendly guidance</p>
+    <section class="cta-section">
+      <form class="email-form" onsubmit="handleSubmit(event)">
+        <input class="email-input" type="email" placeholder="Enter your email for early access" required />
+        <button class="cta-button" type="submit"><span>Get Early Access</span></button>
+      </form>
+      <p class="footer-text">Be among the first to experience AI-powered insights built for local businesses.</p>
+    </section>
+  </main>
 
-        <div class="description">
-            <strong>BizBuddy AI is built to be the approachable AI assistant that small businesses can trust.</strong>
-            We're starting with review insights — turning Google and Yelp feedback into clear actions — but our vision goes further. BizBuddy AI will help streamline operations, highlight growth opportunities, and act as a supportive digital partner that makes advanced technology feel simple and human. We want to empower local businesses with the same intelligence that big companies have, without the complexity or coldness of corporate tools.
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">📊</div>
-                <div class="feature-title">Review Insights</div>
-                <div class="feature-desc">Transform customer feedback from Google and Yelp into actionable business intelligence</div>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🚀</div>
-                <div class="feature-title">Growth Opportunities</div>
-                <div class="feature-desc">Identify and prioritize the improvements that will have the biggest impact on your business</div>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🤖</div>
-                <div class="feature-title">AI That Gets It</div>
-                <div class="feature-desc">Advanced technology that feels human, supportive, and tailored to small business needs</div>
-            </div>
-        </div>
-
-        <div class="cta-section">
-            <form class="email-form" onsubmit="handleSubmit(event)">
-                <input
-                    type="email"
-                    class="email-input"
-                    placeholder="Enter your email for early access"
-                    required
-                />
-                <button type="submit" class="cta-button">
-                    <span>Get Early Access</span>
-                </button>
-            </form>
-            <p class="footer-text">Be among the first to experience AI-powered business insights designed specifically for small businesses</p>
-        </div>
+  <!-- Chat widget -->
+  <div id="bb-chat">
+    <div class="card">
+      <header>BizBuddy Chat</header>
+      <div class="body" id="bb-stream"></div>
+      <form class="form" id="bb-form">
+        <input id="bb-input" placeholder="Ask about the plan…" />
+        <button type="submit">Send</button>
+      </form>
     </div>
+  </div>
 
-    <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
+  <script>
+    // Theme toggle
+    function toggleTheme(){
+      const html=document.documentElement;
+      const icon=document.getElementById('theme-icon');
+      const txt=document.getElementById('theme-text');
+      const dark=html.getAttribute('data-theme')==='dark';
+      if(dark){ html.removeAttribute('data-theme'); icon.textContent='🌙'; txt.textContent='Dark'; localStorage.setItem('theme','light'); }
+      else{ html.setAttribute('data-theme','dark'); icon.textContent='☀️'; txt.textContent='Light'; localStorage.setItem('theme','dark'); }
+    }
+    (function initTheme(){
+      const saved=localStorage.getItem('theme');
+      const system=window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+      const chosen=saved||system;
+      if(chosen==='dark'){ document.documentElement.setAttribute('data-theme','dark'); document.getElementById('theme-icon').textContent='☀️'; document.getElementById('theme-text').textContent='Light'; }
+    })();
 
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
+    // CTA fake submit
+    function handleSubmit(e){
+      e.preventDefault();
+      const btn=e.target.querySelector('.cta-button'), span=btn.querySelector('span');
+      span.textContent='Welcome aboard!'; btn.style.background='#10B981';
+      setTimeout(()=>{ span.textContent='Get Early Access'; btn.style.background='var(--accent)'; }, 2000);
+    }
 
-        function setInitialTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const theme = savedTheme || systemTheme;
+    // Chat widget logic
+    const form=document.getElementById('bb-form');
+    const input=document.getElementById('bb-input');
+    const stream=document.getElementById('bb-stream');
+    const history=[];
 
-            if (theme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.getElementById('theme-icon').textContent = '☀️';
-                document.getElementById('theme-text').textContent = 'Light';
-            }
-        }
+    function addMsg(text, me=false){
+      const div=document.createElement('div');
+      div.className='msg'+(me?' me':'');
+      div.textContent=text;
+      stream.appendChild(div);
+      stream.scrollTop=stream.scrollHeight;
+    }
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('.email-input').value;
-            const button = event.target.querySelector('.cta-button');
-            const span = button.querySelector('span');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const message=input.value.trim();
+      if(!message) return;
+      addMsg(message,true);
+      input.value='';
 
-            span.textContent = 'Welcome aboard!';
-            button.style.background = '#10B981';
-
-            setTimeout(() => {
-                span.textContent = 'Get Early Access';
-                button.style.background = '#14B8A6';
-            }, 2500);
-
-            console.log('Email submitted:', email);
-        }
-
-        setInitialTheme();
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (!localStorage.getItem('theme')) {
-                if (e.matches) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    document.getElementById('theme-icon').textContent = '☀️';
-                    document.getElementById('theme-text').textContent = 'Light';
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                    document.getElementById('theme-icon').textContent = '🌙';
-                    document.getElementById('theme-text').textContent = 'Dark';
-                }
-            }
-        });
-    </script>
+      try{
+        const res=await fetch('/.netlify/functions/chat',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ message, history }) });
+        const data=await res.json();
+        addMsg(data.reply || 'Sorry, no reply.');
+        history.push({ role:'user', content:message });
+        history.push({ role:'assistant', content:data.reply || '' });
+      }catch(err){
+        addMsg('Error contacting assistant. Please try again.');
+      }
+    });
+  </script>
 </body>
 </html>
