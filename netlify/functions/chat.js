@@ -14,7 +14,6 @@ export async function handler(event) {
       },
     };
   }
-
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
@@ -22,37 +21,48 @@ export async function handler(event) {
   try {
     const { message = "", history = [] } = JSON.parse(event.body || "{}");
 
-    // Load your project knowledge
-    const kbPath = path.join(process.cwd(), "data", "plan.md");
-    const kb = fs.existsSync(kbPath) ? fs.readFileSync(kbPath, "utf8") : "";
-
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("Missing GEMINI_API_KEY env var");
+      console.error("Missing GEMINI_API_KEY");
       return { statusCode: 500, body: "Missing GEMINI_API_KEY" };
     }
 
-    // Simple, robust prompt: single user message with system + plan + short history
-    const system = `You are BizBuddy AI, a warm, professional assistant for small business owners.
-Use the project plan to answer accurately. If the plan doesn't contain the answer,
-say you don't know and suggest next steps. Keep replies concise and practical.`;
+    // --- Load ALL markdown files from /data ---
+    const dataDir = path.join(process.cwd(), "data");
+    let kbSections = [];
+    if (fs.existsSync(dataDir)) {
+      const files = fs.readdirSync(dataDir).filter(f => f.endsWith(".md"));
+      for (const file of files) {
+        const p = path.join(dataDir, file);
+        const content = fs.readFileSync(p, "utf8");
+        kbSections.push(`# FILE: ${file}\n${content.trim()}`);
+      }
+    }
+    const kbAll = kbSections.join("\n\n---\n\n") || "";
 
-    // (Optional) include a tiny rolling history to give context
-    const lastTurns = history.slice(-6) // last 6 turns max
-      .map(h => `${h.role.toUpperCase()}: ${h.content}`)
-      .join("\n");
+    // Trim if too long (keep first ~25k chars)
+    const KB_MAX = 25000;
+    const kb = kbAll.length > KB_MAX ? kbAll.slice(0, KB_MAX) + "\n\n[...truncated...]" : kbAll;
+
+    // Build prompt
+    const system = `You are BizBuddy AI, a warm, professional assistant for small business owners.
+Use the knowledge below to answer accurately. If something isn't covered, say you don't know and suggest next steps.
+Be concise, practical, and friendly. Prefer the Roadmap and FAQ when answering about plans.`;
+
+    // Compact history
+    const lastTurns = history.slice(-6).map(h => `${h.role.toUpperCase()}: ${h.content}`).join("\n");
 
     const userPrompt = [
       system,
       "",
-      "--- PROJECT PLAN ---",
+      "===== KNOWLEDGE START =====",
       kb,
-      "--------------------",
+      "===== KNOWLEDGE END =====",
       lastTurns ? `\nConversation so far:\n${lastTurns}` : "",
       `\nUSER: ${message}\nASSISTANT:`
     ].join("\n");
 
-    // Call Gemini (header key + 2.0-flash model)
+    // Call Gemini
     const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
     const resp = await fetch(url, {
       method: "POST",
@@ -75,9 +85,7 @@ say you don't know and suggest next steps. Keep replies concise and practical.`;
     });
 
     const data = await resp.json();
-
     if (!resp.ok) {
-      // Log full error for debugging in Netlify → Functions → chat → Logs
       console.error("Gemini error:", resp.status, JSON.stringify(data));
       return {
         statusCode: 502,
