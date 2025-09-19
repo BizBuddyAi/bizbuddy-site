@@ -93,10 +93,18 @@
     }
     .feature::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--secondary);transform:translateX(-100%);transition:transform .4s ease}
     .feature:hover::before{transform:translateX(0)}
-    .feature:hover{transform:translateY(-8px);box-shadow:0 20px 40px var(--shadow);border-color:var(--secondary)}
-    .feature-icon{font-size:2.8rem;margin-bottom:15px;display:block}
-    .feature-title{font-weight:700;color:var(--primary);margin-bottom:10px;font-size:1.2rem}
-    .feature-desc{font-size:1rem;color:var(--text-secondary);line-height:1.6}
+    .feature:hover{
+      transform:translateY(-8px);
+      box-shadow: 0 20px 40px rgba(16,185,129,.4), 0 0 0 1px var(--secondary), 0 0 30px rgba(16,185,129,.3);
+      border-color:var(--secondary);
+      background: linear-gradient(135deg, var(--secondary-light), rgba(16,185,129,.15));
+    }
+    .feature-icon{font-size:2.8rem;margin-bottom:15px;display:block;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+    .feature:hover .feature-icon{transform:scale(1.1) rotate(5deg)}
+    .feature-title{font-weight:700;color:var(--primary);margin-bottom:10px;font-size:1.2rem;transition:color .3s ease}
+    .feature:hover .feature-title{color:var(--secondary)}
+    .feature-desc{font-size:1rem;color:var(--text-secondary);line-height:1.6;transition:color .3s ease}
+    .feature:hover .feature-desc{color:var(--text-primary)}
 
     .cta-section{margin-top:60px}
     .email-form{display:flex;gap:15px;max-width:500px;margin:0 auto 25px;flex-wrap:wrap;justify-content:center}
@@ -152,7 +160,7 @@
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">
+  <button class="theme-toggle" id="theme-toggle">
     <span id="theme-icon">🌙</span><span id="theme-text">Dark</span>
   </button>
 
@@ -259,6 +267,9 @@
       }
       console.log('Initial theme:', initialTheme);
     })();
+
+    // Add event listener for theme toggle button
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 
     // CTA form submission
     function handleSubmit(e){
