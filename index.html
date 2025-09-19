@@ -14,6 +14,26 @@
       --accent-hover:#0F766E; --border:#E5E7EB; --shadow:rgba(37,99,235,.1);
       --secondary-light:rgba(16,185,129,.1);
     }
+        .login-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+      margin-top: 15px;
+    }
+    
+    .login-button:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(20,184,166,.3);
+    }
     [data-theme="dark"]{
       --primary:#3B82F6; --secondary:#10B981; --accent:#14B8A6;
       --background:#0F172A; --surface:#1E293B;
@@ -168,9 +188,16 @@
         <input type="email" class="email-input" placeholder="Enter your email for early access" required />
         <button class="cta-button" type="submit"><span>Get Early Access</span></button>
       </form>
+      
+      <!-- New Login Button -->
+      <div style="margin-top: 20px;">
+        <a href="https://app.biz-buddy-ai.com" class="login-button">
+          Already have access? Sign In
+        </a>
+      </div>
+      
       <p class="footer-text">Be among the first to experience AI-powered business insights designed specifically for small businesses</p>
     </section>
-  </main>
 
   <!-- Chat launcher (circle) -->
   <button id="bb-launcher" aria-label="Open chat">💬</button>
