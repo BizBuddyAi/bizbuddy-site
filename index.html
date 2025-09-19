@@ -14,7 +14,7 @@
       --accent-hover:#0F766E; --border:#E5E7EB; --shadow:rgba(37,99,235,.1);
       --secondary-light:rgba(16,185,129,.1);
     }
-        .login-button {
+    .login-button {
       display: inline-block;
       padding: 16px 32px;
       background: transparent;
@@ -47,10 +47,12 @@
       line-height:1.6;color:var(--text-primary);background:var(--background);
       min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;transition:all .3s ease;
     }
+    
     .theme-toggle{
       position:fixed;top:30px;right:30px;background:var(--surface);border:2px solid var(--border);
       border-radius:50px;padding:12px 20px;cursor:pointer;z-index:1000;display:flex;gap:8px;align-items:center;
       font-size:14px;font-weight:500;color:var(--text-secondary);box-shadow:0 4px 12px var(--shadow);
+      transition:all .3s ease;
     }
     .theme-toggle:hover{transform:translateY(-2px);box-shadow:0 8px 25px var(--shadow);border-color:var(--primary)}
 
@@ -87,7 +89,7 @@
     }
     .feature{
       padding:30px 25px;background:var(--secondary-light);border-radius:20px;border:1px solid var(--border);
-      transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+      transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer;
     }
     .feature::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--secondary);transform:translateX(-100%);transition:transform .4s ease}
     .feature:hover::before{transform:translateX(0)}
@@ -98,7 +100,8 @@
 
     .cta-section{margin-top:60px}
     .email-form{display:flex;gap:15px;max-width:500px;margin:0 auto 25px;flex-wrap:wrap;justify-content:center}
-    .email-input{flex:1;min-width:300px;padding:20px 28px;border:2px solid var(--border);border-radius:50px;background:var(--surface)}
+    .email-input{flex:1;min-width:300px;padding:20px 28px;border:2px solid var(--border);border-radius:50px;background:var(--surface);
+      color:var(--text-primary);transition:all .3s ease;}
     .email-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.1);transform:translateY(-2px)}
     .cta-button{background:var(--accent);color:#fff;padding:20px 40px;border:none;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 10px 30px rgba(20,184,166,.3);min-width:180px;display:flex;align-items:center;justify-content:center}
     .cta-button:hover{background:var(--accent-hover);transform:translateY(-4px);box-shadow:0 15px 40px rgba(20,184,166,.4)}
@@ -139,7 +142,7 @@
     }
     #bb-chat.open{display:block}
     #bb-chat header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border);font-weight:700;color:var(--primary)}
-    #bb-chat .body{padding:12px;max-height:380px;overflow:auto;font-size:14px}
+    #bb-chat .body{padding:12px;max-height:380px;overflow:auto;font-size:14px;color:var(--text-primary);}
     #bb-chat .msg{margin:8px 0}
     #bb-chat .me{text-align:right}
     #bb-chat .form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
@@ -189,15 +192,16 @@
         <button class="cta-button" type="submit"><span>Get Early Access</span></button>
       </form>
       
-      <!-- New Login Button -->
+      <!-- Login Button - Updated URL -->
       <div style="margin-top: 20px;">
-        <a href="https://app.biz-buddy-ai.com" class="login-button">
+        <a href="https://app.biz-buddy-ai.com/login" class="login-button">
           Already have access? Sign In
         </a>
       </div>
       
       <p class="footer-text">Be among the first to experience AI-powered business insights designed specifically for small businesses</p>
     </section>
+  </main>
 
   <!-- Chat launcher (circle) -->
   <button id="bb-launcher" aria-label="Open chat">💬</button>
@@ -218,73 +222,107 @@
   </div>
 
   <script>
-    // Theme toggle
+    // Theme toggle function
     function toggleTheme(){
-      const html=document.documentElement, icon=document.getElementById('theme-icon'), txt=document.getElementById('theme-text');
-      const dark=html.getAttribute('data-theme')==='dark';
-      if(dark){ html.removeAttribute('data-theme'); icon.textContent='🌙'; txt.textContent='Dark'; localStorage.setItem('theme','light'); }
-      else { html.setAttribute('data-theme','dark'); icon.textContent='☀️'; txt.textContent='Light'; localStorage.setItem('theme','dark'); }
+      console.log('Theme toggle clicked'); // Debug log
+      const html = document.documentElement;
+      const icon = document.getElementById('theme-icon');
+      const txt = document.getElementById('theme-text');
+      const currentTheme = html.getAttribute('data-theme');
+      const isDark = currentTheme === 'dark';
+      
+      if(isDark) { 
+        html.removeAttribute('data-theme'); 
+        icon.textContent = '🌙'; 
+        txt.textContent = 'Dark'; 
+        localStorage.setItem('theme', 'light'); 
+        console.log('Switched to light mode');
+      } else { 
+        html.setAttribute('data-theme', 'dark'); 
+        icon.textContent = '☀️'; 
+        txt.textContent = 'Light'; 
+        localStorage.setItem('theme', 'dark'); 
+        console.log('Switched to dark mode');
+      }
     }
+
+    // Initialize theme on page load
     (function initTheme(){
-      const saved=localStorage.getItem('theme');
-      const system=window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      if((saved||system)==='dark'){ document.documentElement.setAttribute('data-theme','dark'); document.getElementById('theme-icon').textContent='☀️'; document.getElementById('theme-text').textContent='Light'; }
+      const saved = localStorage.getItem('theme');
+      const system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const initialTheme = saved || system;
+      
+      if(initialTheme === 'dark') { 
+        document.documentElement.setAttribute('data-theme', 'dark'); 
+        document.getElementById('theme-icon').textContent = '☀️'; 
+        document.getElementById('theme-text').textContent = 'Light'; 
+      }
+      console.log('Initial theme:', initialTheme);
     })();
 
-    // CTA fake submit
+    // CTA form submission
     function handleSubmit(e){
       e.preventDefault();
-      const btn=e.target.querySelector('.cta-button'), span=btn.querySelector('span');
-      span.textContent='Welcome aboard!'; btn.style.background='#10B981';
-      setTimeout(()=>{ span.textContent='Get Early Access'; btn.style.background='var(--accent)'; }, 2000);
+      const btn = e.target.querySelector('.cta-button');
+      const span = btn.querySelector('span');
+      span.textContent = 'Welcome aboard!'; 
+      btn.style.background = '#10B981';
+      setTimeout(() => { 
+        span.textContent = 'Get Early Access'; 
+        btn.style.background = 'var(--accent)'; 
+      }, 2000);
     }
 
-    // --- Chat widget logic (open/close + send) ---
-    const launcher=document.getElementById('bb-launcher');
-    const chat=document.getElementById('bb-chat');
-    const closeBtn=document.getElementById('bb-close');
-    const form=document.getElementById('bb-form');
-    const input=document.getElementById('bb-input');
-    const stream=document.getElementById('bb-stream');
-    const history=[];
+    // Chat widget functionality
+    const launcher = document.getElementById('bb-launcher');
+    const chat = document.getElementById('bb-chat');
+    const closeBtn = document.getElementById('bb-close');
+    const form = document.getElementById('bb-form');
+    const input = document.getElementById('bb-input');
+    const stream = document.getElementById('bb-stream');
+    const history = [];
 
     function openChat(){ chat.classList.add('open'); }
     function closeChat(){ chat.classList.remove('open'); }
+    
     launcher.addEventListener('click', openChat);
     closeBtn.addEventListener('click', closeChat);
 
-    function addMsg(text, me=false){
-      const div=document.createElement('div');
-      div.className='msg'+(me?' me':'');
-      div.textContent=text;
+    function addMsg(text, me = false){
+      const div = document.createElement('div');
+      div.className = 'msg' + (me ? ' me' : '');
+      div.textContent = text;
       stream.appendChild(div);
-      stream.scrollTop=stream.scrollHeight;
+      stream.scrollTop = stream.scrollHeight;
     }
 
-    form.addEventListener('submit', async (e)=>{
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const message=input.value.trim();
+      const message = input.value.trim();
       if(!message) return;
-      addMsg(message,true);
-      input.value='';
+      
+      addMsg(message, true);
+      input.value = '';
 
-      try{
-        const res=await fetch('/.netlify/functions/chat',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({ message, history })
+      try {
+        const res = await fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ message, history })
         });
-        const data=await res.json();
+        const data = await res.json();
         addMsg(data.reply || 'Error contacting assistant. Please try again.');
-        history.push({ role:'user', content:message });
-        history.push({ role:'assistant', content:data.reply || '' });
-      }catch(err){
+        history.push({ role: 'user', content: message });
+        history.push({ role: 'assistant', content: data.reply || '' });
+      } catch(err) {
         addMsg('Error contacting assistant. Please try again.');
       }
     });
 
-    // Optional: ESC to minimize
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && chat.classList.contains('open')) closeChat(); });
+    // ESC key to close chat
+    window.addEventListener('keydown', (e) => { 
+      if(e.key === 'Escape' && chat.classList.contains('open')) closeChat(); 
+    });
   </script>
 </body>
 </html>
